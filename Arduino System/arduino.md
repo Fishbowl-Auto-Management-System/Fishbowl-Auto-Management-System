@@ -10,10 +10,6 @@
 //탁도센서 연결된 핀
 #define TAKDO A1
 
-// 워터펌프 화분 => 어항
-#define WATERPUMP_3 4
-#define WATERPUMP_4 5
- 
 // 워터펌프 어항 => 화분
 #define WATERPUMP_1 6
 #define WATERPUMP_2 7
@@ -58,33 +54,28 @@ void default_temperature(int default_temp){
 
 //환수 시스템
 void filtering_management(){
+
+  int takdo_data = 0;
+  while(1){
+
   //탁도 데이터
-  int takdo_data = analogRead(TAKDO);
-  takdo_data = takdo_data * 2;
-   
+    takdo_data = analogRead(TAKDO);
+    takdo_data = takdo_data * 2;
+  
   //탁도가 기준을 넘어갔을 경우
-  if(takdo_data < 1600) {
-
-    //워터펌프 가동
-    //어항 => 화분
-    digitalWrite(WATERPUMP_1,HIGH);
-    digitalWrite(WATERPUMP_2,LOW);
-
-    //화분 => 어항
-    digitalWrite(WATERPUMP_3,HIGH);
-    digitalWrite(WATERPUMP_4,LOW);
-  } else {
-    //어항 => 화분
-    digitalWrite(WATERPUMP_1,LOW);
-    digitalWrite(WATERPUMP_2,LOW);
-
-    //화분 => 어항
-    digitalWrite(WATERPUMP_3,LOW);
-    digitalWrite(WATERPUMP_4,LOW);
+    if(takdo_data < 1600){
+      digitalWrite(WATERPUMP_1,HIGH);
+      digitalWrite(WATERPUMP_2,LOW);
+      Serial.println((String) "filtering_management/now_value/" + takdo_data);
+      delay(1000);
+    }else{
+      digitalWrite(WATERPUMP_1,LOW);
+      digitalWrite(WATERPUMP_2,LOW);
+      break;
+    }
   }
   // filtering_management/now_value/{data}
   Serial.println((String) "filtering_management/now_value/" + takdo_data);
-  delay(1000);
   Serial.println("end_point");
 }
 
@@ -164,8 +155,6 @@ void setup(){
   pinMode(WATERPUMP_1,OUTPUT); //워터펌프1 OUTPUT
   pinMode(WATERPUMP_2,OUTPUT); //워터펌프2 OUTPUT
 
-  pinMode(WATERPUMP_3,OUTPUT); //워터펌프3 OUTPUT
-  pinMode(WATERPUMP_4,OUTPUT); //워터펌프4 OUTPUT
 }
 
 void loop(){
