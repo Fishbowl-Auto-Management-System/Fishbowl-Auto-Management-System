@@ -82,8 +82,9 @@ void filtering_management(){
     digitalWrite(WATERPUMP_3,LOW);
     digitalWrite(WATERPUMP_4,LOW);
   }
-  // /filtering_management/now_value/{data}
-  Serial.println("/filtering_management/now_value/" + takdo_data);
+  // filtering_management/now_value/{data}
+  Serial.println((String) "filtering_management/now_value/" + takdo_data);
+  delay(1000);
   Serial.println("end_point");
 }
 
@@ -124,19 +125,19 @@ void temperature_management(){
   // Serial.print(" 움직인 각도:: " );
   // Serial.println(rotation * compare_temp);
 
-  // /temperautre_management/now_value/{data}
-  // /temperautre_management/diff_value/{data}
-  // /temperautre_management/rotation_value/{data}
-  Serial.println((String) "/temperautre_management/now_value/" + temp);
-  Serial.println((String) "/temperautre_management/diff_value/" + compare_temp);
-  Serial.println((String)  "/temperautre_management/rotation_value/" + rotation * compare_temp);
+  // temperautre_management/now_value/{data}
+  // temperautre_management/diff_value/{data}
+  // temperautre_management/rotation_value/{data}
+  Serial.println((String) "temperautre_management/now_value/" + temp);
+  Serial.println((String) "temperautre_management/diff_value/" + compare_temp);
+  Serial.println((String) "temperautre_management/rotation_value/" + rotation * compare_temp);
   Serial.println("end_point");
 }
 
 
 //먹이배급 함수
 void feeding_management(){
-  Serial.println("servo_test");
+
   servo.write(180);
   delay(500);
   servo.write(0);
@@ -165,8 +166,6 @@ void setup(){
 
   pinMode(WATERPUMP_3,OUTPUT); //워터펌프3 OUTPUT
   pinMode(WATERPUMP_4,OUTPUT); //워터펌프4 OUTPUT
-
-  Serial.println("Ready to Shot");
 }
 
 void loop(){
