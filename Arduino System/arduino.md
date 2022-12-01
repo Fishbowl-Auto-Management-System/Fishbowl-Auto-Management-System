@@ -48,7 +48,7 @@ void default_temperature(int default_temp){
   // - => 하강
   // + => 상승
   myStepper.step(rotation * (default_temp - min_temp + 1.5));
-
+  delay(3000);
   Serial.println("end_point");
 }
 
@@ -57,31 +57,33 @@ void filtering_management(){
 
   int takdo_data = 0;
   while(1){
-
   //탁도 데이터
     takdo_data = analogRead(TAKDO);
     takdo_data = takdo_data * 2;
   
   //탁도가 기준을 넘어갔을 경우
-    if(takdo_data < 1600){
+    if(takdo_data < 1390){
       digitalWrite(WATERPUMP_1,HIGH);
       digitalWrite(WATERPUMP_2,LOW);
       Serial.println((String) "filtering_management/now_value/" + takdo_data);
-      delay(1000);
+      delay(3000);
     }else{
       digitalWrite(WATERPUMP_1,LOW);
       digitalWrite(WATERPUMP_2,LOW);
+
+      Serial.println((String) "filtering_management/now_value/" + takdo_data);
+      delay(3000);
+      Serial.println("end_point");
       break;
     }
   }
   // filtering_management/now_value/{data}
-  Serial.println((String) "filtering_management/now_value/" + takdo_data);
-  Serial.println("end_point");
+  
 }
 
 //온도 관리 시스템
 void temperature_management(){
-  // int voltage = analogRead(TEMP_PIN);
+  // int voltage = analogRead(TEMP_PIN);0
   // float temp = voltage * 5.0 * 100 / 1024;
 
   // Send the command to get temperatures
@@ -116,12 +118,16 @@ void temperature_management(){
   // Serial.print(" 움직인 각도:: " );
   // Serial.println(rotation * compare_temp);
 
-  // temperautre_management/now_value/{data}
-  // temperautre_management/diff_value/{data}
-  // temperautre_management/rotation_value/{data}
-  Serial.println((String) "temperautre_management/now_value/" + temp);
-  Serial.println((String) "temperautre_management/diff_value/" + compare_temp);
-  Serial.println((String) "temperautre_management/rotation_value/" + rotation * compare_temp);
+  //versionV1
+  // Serial.println((String) "temperature_management/now_value/" + temp);
+  // delay(3000);
+  // Serial.println((String) "temperature_management/diff_value/" + compare_temp);
+  // delay(3000);
+  // Serial.println((String) "temperature_management/rotation_value/" + rotation * compare_temp);
+
+  ///versionV2
+  Serial.println((String) "temperature_management/" + temp + "/" + compare_temp+"/"+rotation * compare_temp);
+  delay(3000);
   Serial.println("end_point");
 }
 
