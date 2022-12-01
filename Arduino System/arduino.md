@@ -56,25 +56,24 @@ void default_temperature(int default_temp){
 void filtering_management(){
 
   int takdo_data = 0;
-  while(1){
+  int i = 0;
+  while(i == 0){
   //탁도 데이터
     takdo_data = analogRead(TAKDO);
     takdo_data = takdo_data * 2;
   
   //탁도가 기준을 넘어갔을 경우
-    if(takdo_data < 1390){
+    if(takdo_data < 1400){
       digitalWrite(WATERPUMP_1,HIGH);
       digitalWrite(WATERPUMP_2,LOW);
       Serial.println((String) "filtering_management/now_value/" + takdo_data);
-      delay(3000);
     }else{
       digitalWrite(WATERPUMP_1,LOW);
       digitalWrite(WATERPUMP_2,LOW);
 
       Serial.println((String) "filtering_management/now_value/" + takdo_data);
-      delay(3000);
       Serial.println("end_point");
-      break;
+      i = 1;
     }
   }
   // filtering_management/now_value/{data}
@@ -113,12 +112,7 @@ void temperature_management(){
     }
   }
   
-  // Serial.print("온도차 ::");
-  // Serial.print(compare_temp);
-  // Serial.print(" 움직인 각도:: " );
-  // Serial.println(rotation * compare_temp);
-
-  //versionV1
+  // versionV1
   // Serial.println((String) "temperature_management/now_value/" + temp);
   // delay(3000);
   // Serial.println((String) "temperature_management/diff_value/" + compare_temp);
@@ -136,7 +130,7 @@ void temperature_management(){
 void feeding_management(){
 
   servo.write(180);
-  delay(500);
+  delay(1000);
   servo.write(0);
 
   Serial.println("end_point");
