@@ -1,4 +1,4 @@
-```
+```C
 #include <OneWire.h> //수온센서 라이브러리
 #include <DallasTemperature.h> //수온센서 라이브러리
 #include <Stepper.h> //스탭모터
@@ -177,5 +177,5 @@ void loop(){
         feeding_management();
      }
     }
-  }
+}
 ```
