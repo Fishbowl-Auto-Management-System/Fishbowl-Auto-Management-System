@@ -86,6 +86,7 @@
 - water temperature sensor
 - servo motor
 - water pump
+- step motor
 
 ### Software Configuration
 
@@ -145,10 +146,61 @@
 
 ## 1. Development Setting
 
+## Install InfluxDB
+```
+$ sudo apt update
+$ sudo apt upgrade
+```
+
+```
+$ wget -qO- https://repos.influxdata.com/influxdb.key | sudo apt-key add -
+```
+
+```
+$ echo "deb https://repos.influxdata.com/debian stretch stable" | sudo tee /etc/apt/sources.list.d/influxdb.list
+```
+
+```
+$ sudo apt update
+$ sudo apt install influxdb
+```
+
+```
+$ sudo systemctl unmask influxdb
+$ sudo systemctl enable influxdb
+$ sudo systemctl start influxdb
+```
+
+## Install Grafana
+
+```
+$ wget -q -O - https://packages.grafana.com/gpg.key | sudo apt-key add -
+```
+
+```
+$ echo "deb https://packages.grafana.com/oss/deb stable main" | sudo tee -a /etc/apt/sources.list.d/grafana.list
+```
+
+```
+$ sudo apt update
+$ sudo apt install grafana
+```
+
+## String Grafana
+```
+$ sudo service grafana-server start
+```
+
+## Install Influxdb with Python
+
+```
+$ sudo pip3 install influxdb
+```
+
 ## Install Arudino
 
 ```
-sudo install arduino
+$ sudo install arduino
 ```
 
 ## Install Fast API
@@ -187,7 +239,7 @@ $ npm start
 
 # 2. Aruino Programming
 
-```
+```c
 #include <OneWire.h> //수온센서 라이브러리
 #include <DallasTemperature.h> //수온센서 라이브러리
 #include <Stepper.h> //스탭모터
@@ -265,7 +317,6 @@ void filtering_management(){
       i = 1;
     }
   }
-  // filtering_management/now_value/{data}
   
 }
 
@@ -277,7 +328,6 @@ void temperature_management(){
   // Send the command to get temperatures
   sensors.requestTemperatures(); 
   float temp = sensors.getTempCByIndex(0);
-  Serial.print("\xe2\x84\x83");
   
   // Serial.println(temp);
 
@@ -300,17 +350,8 @@ void temperature_management(){
       post_temp = temp;
     }
   }
-  
-  // versionV1
-  // Serial.println((String) "temperature_management/now_value/" + temp);
-  // delay(3000);
-  // Serial.println((String) "temperature_management/diff_value/" + compare_temp);
-  // delay(3000);
-  // Serial.println((String) "temperature_management/rotation_value/" + rotation * compare_temp);
 
-  ///versionV2
-  Serial.println((String) "temperature_management/" + temp + "/" + compare_temp+"/"+rotation * compare_temp);
-  delay(3000);
+  Serial.println((String)"temperature_management/" + temp + "/" + compare_temp + "/" + rotation * compare_temp);
   Serial.println("end_point");
 }
 
@@ -368,13 +409,13 @@ void loop(){
         feeding_management();
      }
     }
-  }
+}
 ```
 # 3. Fast API Programming
 
 ## Main.py
 
-```
+```python
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI
 from default_temperature import default_temperature
@@ -434,7 +475,7 @@ def main():
 
 # 4. ReactJs Programming
 
-```
+```javascript
 
 import './App.css';
 import axios from 'axios';
