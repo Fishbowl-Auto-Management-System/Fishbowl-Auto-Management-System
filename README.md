@@ -9,18 +9,17 @@
 
 ### Requirements
   
-  1. If user click a button on web/app, operate Arduino by serial moniter
-    1.1 setting default temperature
-    1.2 setting temperature
+  - 1. If user click a button on web/app, operate Arduino by serial moniter
+    - 1.1 setting default temperature
+    - 1.2 setting temperature
   
-  2. If Arduino get a setting temperature, compare it to current temperature.
-  
-    2.1 Send the current temperature to raspberry pi4
+  - 2. If Arduino get a setting temperature, compare it to current temperature.
+    - 2.1 Send the current temperature to raspberry pi4
     
-  3. After comparsion, operate step motor
-    3.1 Send endpoint to raspberry pi4
-  
-  4. print the result by ReactJs
+  - 3. After comparsion, operate step motor
+    - 3.1 Send endpoint to raspberry pi4
+
+  - 4. print the result by ReactJs
 
 ![image](https://user-images.githubusercontent.com/81907470/206219565-e28d9a52-3fb6-4740-8f07-bcbf217cd535.png)
 
